@@ -1,17 +1,17 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QStackedWidget
 
-from gui.game_window import GameWindow
+from gui.application_window import ApplicationWindow
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.title = "PyMa"
+        self.menu = ApplicationWindow(self)
+        self.init_ui()
 
-        self.g = GameWindow()
-        self.setCentralWidget(self.g)
+    def init_ui(self):
+        self.setWindowTitle(self.title)
+        self.setCentralWidget(self.menu)
         self.resize(800, 600)
         self.show()
-
-    def keyPressEvent(self, e):
-        self.centralWidget().keyPressEvent(e)
-
