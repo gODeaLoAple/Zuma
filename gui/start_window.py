@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLayout
 from PyQt5.QtCore import pyqtSlot, Qt
 
 
-class StartMenu(QWidget):
+class StartWindow(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.init_ui()

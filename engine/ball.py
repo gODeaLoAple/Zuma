@@ -33,7 +33,7 @@ class GameBall(Ball):
         self.position += vector
 
     def is_intersected_by(self, other):
-        return self.position.distanceToPoint(other.position) <= self.radius + other.radius
+        return self.position.distanceToPoint(other.position) <= self.radius + other.radius + 1e-6
 
     @staticmethod
     def generate_color_except(exceptions):

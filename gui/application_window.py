@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QStackedWidget
 
 from gui.game_window import GameWindow
-from gui.start_window import StartMenu
-from gui.defeat_window import DefeatMenu
+from gui.start_window import StartWindow
+from gui.defeat_window import DefeatWindow
 from gui.win_window import WinWindow
 
 
@@ -10,8 +10,8 @@ class ApplicationWindow(QStackedWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.game = GameWindow(self)
-        self._start = StartMenu(self)
-        self._defeat = DefeatMenu(self)
+        self._start = StartWindow(self)
+        self._defeat = DefeatWindow(self)
         self._win = WinWindow(self)
         self.init_ui()
 

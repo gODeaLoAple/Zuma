@@ -1,8 +1,8 @@
 from threading import Timer
 
 from PyQt5.QtGui import QVector2D, QPainter, QColor
-from PyQt5.QtWidgets import QWidget
-
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
+from PyQt5.Qt import Qt
 from engine.game import Game
 
 
@@ -11,17 +11,17 @@ class GameWindow(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._game = Game(QVector2D(300, 300),
-            [
-               QVector2D(0, 0),
-               QVector2D(50, 0),
-            ])
-        self.timer = Timer(GameWindow.FPS, self.step)
-
+        self._game = None
+        self.timer = None
+        self.score_label = None
         self.initUI()
 
     def restart(self):
-        self.timer.cancel()
+        self.start()
+
+    def start(self):
+        if self.timer:
+            self.timer.cancel()
         self._game = Game(QVector2D(300, 300),
                           [
                               QVector2D(0, 0),
@@ -32,20 +32,26 @@ class GameWindow(QWidget):
                               QVector2D(500, 400)
                           ])
         self.timer = Timer(GameWindow.FPS, self.step)
-        self.start()
-
-    def start(self):
         self.timer.start()
 
     def step(self):
         if self._game.is_game_end:
-            self.on_win()
+            self.timer.cancel()
+            self.on_game_end()
             return
         self._game.step()
+        self.score_label.setText(f"Scores: {self._game.score}")
         self.update()
         Timer(GameWindow.FPS, self.step).start()
 
     def initUI(self):
+        self.score_label = QLabel("Scores: 0", self)
+        vbox = QVBoxLayout(self)
+        hbox = QHBoxLayout(self)
+        hbox.addLayout(vbox)
+        vbox.addWidget(self.score_label)
+
+        self.setLayout(hbox)
         self.releaseKeyboard()
 
     def paintEvent(self, e):
@@ -60,6 +66,12 @@ class GameWindow(QWidget):
         dx = event.x() - self._game.player.position.x()
         dy = event.y() - self._game.player.position.y()
         self._game.shot(QVector2D(dx, dy))
+
+    def on_game_end(self):
+        if self._game.is_win:
+            self.on_win()
+        else:
+            self.on_defeat()
 
     def on_defeat(self):
         self.parent().open_defeat_menu()

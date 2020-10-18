@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtGui import QStaticText
 
 
-class DefeatMenu(QWidget):
+class DefeatWindow(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.init_ui()
