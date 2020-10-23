@@ -109,23 +109,31 @@ class BallsMover:
         self._shot_balls.append(Shot(ball, vector))
 
     def move(self):
-        if self._has_free_balls():
+        if self.has_free_balls():
             self._move_only_free_balls()
         else:
             self._move_all_balls()
         for ball in self._shot_balls:
             ball.move()
 
-    def _has_free_balls(self):
+    def has_free_balls(self):
         return self._free_balls_start_index != -1
 
     def _move_only_free_balls(self):
         for i in range(self._free_balls_start_index):
-            self._balls[i].move_reverse(5)
+            self._balls[i].move_reverse(3)
         self._update_free_balls_start_index()
 
     def _update_free_balls_start_index(self):
         self._free_balls_start_index = self._find_last_space_between_checkpointers_index()
+        if self._free_balls_start_index == -1:
+            self._align_balls()
+
+    def _align_balls(self):
+        for i in range(len(self._balls) - 1):
+            current_ball, next_ball = self._balls[i:i + 2]
+            while not current_ball.ball.is_intersected_by(next_ball.ball):
+                next_ball.move()
 
     def _find_last_space_between_checkpointers_index(self):
         index = -1

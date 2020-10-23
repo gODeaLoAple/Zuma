@@ -23,7 +23,7 @@ class StartWindow(QWidget):
 
     @pyqtSlot()
     def on_start_click(self):
-        self.parent().start_game()
+        self.parent().open_choose_level_menu()
 
     @pyqtSlot()
     def on_exit_click(self):

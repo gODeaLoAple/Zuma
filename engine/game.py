@@ -4,20 +4,23 @@ import enum
 
 
 class Game:
-    SCORE_TO_WIN = 100
+    SCORE_TO_WIN = 500
     SCORE_PER_BALL = 5
 
-    def __init__(self, player_position, path):
-        self.player = GameBall(player_position)
-        self._start_ball = GameBall(path[0])
-        self._mover = BallsMover(path)
+    def __init__(self, level):
+        self.level = level
+        self.player = GameBall(level.player_position)
+        self._start_ball = GameBall(level.path[0])
+        self._mover = BallsMover(level.path)
         self._score = 0
 
     def step(self):
         self.try_add_ball()
         self._mover.move()
         self._mover.resolve_collisions()
-        self._score += self._mover.remove_same_color_segments_and_return_count_of_removed_balls() * Game.SCORE_PER_BALL
+        if not self._mover.has_free_balls():
+            removed_balls_count = self._mover.remove_same_color_segments_and_return_count_of_removed_balls()
+            self._score += removed_balls_count * Game.SCORE_PER_BALL
 
     def try_add_ball(self):
         if self._mover.can_add_ball(self._start_ball):

@@ -17,20 +17,12 @@ class GameWindow(QWidget):
         self.initUI()
 
     def restart(self):
-        self.start()
+        self.start(self._game.level)
 
-    def start(self):
+    def start(self, level):
         if self.timer:
             self.timer.cancel()
-        self._game = Game(QVector2D(300, 300),
-                          [
-                              QVector2D(0, 0),
-                              QVector2D(500, 0),
-                              QVector2D(500, 200),
-                              QVector2D(100, 200),
-                              QVector2D(100, 400),
-                              QVector2D(500, 400)
-                          ])
+        self._game = Game(level)
         self.timer = Timer(GameWindow.FPS, self.step)
         self.timer.start()
 
