@@ -17,17 +17,13 @@ class Ball:
 
 class GameBall(Ball):
     BALL_RADIUS = 20
-    COLORS = {(255, 0,     0),
-              (255, 255,   0),
-              (255, 165,   0),
-              (0,   255,   0),
-              (0,   255, 255),
-              (0,   0,   255),
-              (255, 0,   255)}
+    COLORS = list(range(12))
 
     def __init__(self, start_position, color=None):
         super().__init__(GameBall.BALL_RADIUS, start_position)
-        self.color = color or generate_except(GameBall.COLORS)
+        if color is None:
+            color = generate_except(GameBall.COLORS)
+        self.color = color
 
     def move(self, vector):
         self.position += vector

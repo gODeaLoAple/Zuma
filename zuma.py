@@ -2,12 +2,12 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from gui.main_window import MainWindow
-from engine.level import load_level
+
 
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
-    sys.exit(app.exec())
+    sys.exit(app.exec_())
 
 
 if __name__ == "__main__":
